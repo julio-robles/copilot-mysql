@@ -1,16 +1,21 @@
-version: "3.9"
+version: '3.9'
 
 services:
-  db:
-    image: mysql:8.3
-    container_name: copilot-mysql
+  mysql:
+    image: mysql:8.0
+    container_name: streamflix-mysql
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: copflix
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: streamflix
+      MYSQL_USER: streamflix_user
+      MYSQL_PASSWORD: streamflix_password
     ports:
-      - "3307:3306"
+      - "3308:3308"
     volumes:
-      - ./mysql-data:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  mysql-data:
